@@ -49,7 +49,14 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void MoveCamera()
     {
+        Camera MainCam = Camera.main;
+        Transform MainCamTrs = MainCam.transform;
 
+        float x = Input.GetAxis("Mouse X");
+        float y = Input.GetAxis("Mouse Y");
+
+        Vector3 ve3 = new Vector3(-y, x, 0);
+        MainCamTrs.Rotate(ve3);
     }
 
     private void FirstPersonAction()
@@ -62,13 +69,9 @@ public class PlayerNetwork : NetworkBehaviour
 
             MainCamTrs.position = transform.position;
 
-            float x = Input.GetAxis("Mouse X");
-            float y = Input.GetAxis("Mouse Y");
+            MoveCamera();
 
-            Vector3 ve3 = new Vector3(-y, x, 0);
-            Debug.Log(ve3.x);
-            Debug.Log(ve3.y);
-            MainCamTrs.Rotate(ve3);
+            
 
 
         }
