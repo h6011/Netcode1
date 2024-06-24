@@ -10,7 +10,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private float moveSpeed = 10f;
 
-    private bool attachToCharacter = true;
+    private bool isFirstPerson = true;
 
 
 
@@ -52,15 +52,24 @@ public class PlayerNetwork : NetworkBehaviour
 
     }
 
-    private void attachToCharacterAction()
+    private void FirstPersonAction()
     {
-        if (attachToCharacter)
+        if (isFirstPerson)
         {
             Camera MainCam = Camera.main;
             Transform MainCamTrs = MainCam.transform;
+            MainCamTrs.SetParent(transform);
 
             MainCamTrs.position = transform.position;
-            MainCamTrs.rotation = transform.rotation;
+
+            float x = Input.GetAxis("Mouse X");
+            float y = Input.GetAxis("Mouse Y");
+
+            Vector3 ve3 = new Vector3(-y, x, 0);
+            Debug.Log(ve3.x);
+            Debug.Log(ve3.y);
+            MainCamTrs.Rotate(ve3);
+
 
         }
     }
@@ -71,7 +80,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
 
         MoveCharacter();
-        attachToCharacterAction();
+        FirstPersonAction();
 
     }
 
